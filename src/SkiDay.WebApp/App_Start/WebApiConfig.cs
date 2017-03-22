@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Web.Http;
+using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 
 namespace SkiDay.WebApp
@@ -8,25 +12,22 @@ namespace SkiDay.WebApp
     {
         public static void Register(HttpConfiguration config)
         {
-            // TODO: Add any additional configuration code.
+        // Web API configuration and services
+        // Configure Web API to use only bearer token authentication.
+        config.SuppressDefaultHostAuthentication();
+        config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
-            // Web API routes
-            config.MapHttpAttributeRoutes();
+        // Use camel case for JSON data.
+        config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
-            config.Routes.MapHttpRoute(
-                "DefaultApi",
-                "api/{controller}/{id}",
-                new {id = RouteParameter.Optional}
-            );
+        // Web API routes
+        config.MapHttpAttributeRoutes();
 
-            // WebAPI when dealing with JSON & JavaScript!
-            // Setup json serialization to serialize classes to camel (std. Json format)
-            var formatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
-            formatter.SerializerSettings.ContractResolver =
-                new CamelCasePropertyNamesContractResolver();
-
-            var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
-            config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
+        config.Routes.MapHttpRoute(
+            name: "DefaultApi",
+            routeTemplate: "api/{controller}/{id}",
+            defaults: new { id = RouteParameter.Optional }
+        );
         }
     }
 }

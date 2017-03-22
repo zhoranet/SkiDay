@@ -3,15 +3,14 @@
 div.goal-progress {
 
   width: 95%;
-  margin: 0 2.5%;
-  font-size: 3em;
-  position: absolute;
+  margin: 0 2.5%;    
   bottom: 3em;
   display: flex;
   align-items: center;
   font-family: verdana;
   justify-content: space-between;
   text-shadow: 2px 2px 10px $snow-white;
+  font-size: 1.25em;
 
   progress {
     flex-basis: 66%;
@@ -23,8 +22,7 @@ div.goal-progress {
     background: none;
     border: none;
     position: relative;
-    width: 1.7em;
-    font-size: 1em;
+    width: 2.2em;    
     padding: 0;
     left: 9px;
     outline: none;

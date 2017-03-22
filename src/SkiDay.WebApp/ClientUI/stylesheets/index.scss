@@ -2,6 +2,7 @@
 
 html,
 body,
+div.body-content,
 div#react-container,
 div.app {
   height: 100%;
@@ -9,9 +10,9 @@ div.app {
   margin: 0;
 }
 
-body {
-  font-size: 55%;
-}
+// body {
+//   font-size: 55%;
+// }
 
 h1, label {
   margin: 0
@@ -25,7 +26,6 @@ div.app {
 
 div.whoops-404 {
   background-color: white;
-  font-size: 2em;
   display: flex;
   justify-content: center;
   align-items: center;

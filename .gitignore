@@ -31,3 +31,5 @@ _ReSharper*/
 #Nuget packages folder
 packages/
 src/**/node_modules/**
+src/**/App_Data/*.mdf
+src/**/App_Data/*.ldf

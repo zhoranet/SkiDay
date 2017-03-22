@@ -9,7 +9,7 @@ form.add-day {
   justify-content: space-around;
   align-items: stretch;
   height: calc(100% - 12em);
-  font-size: 1.7em;
+  
 
   >label,
   div {
@@ -18,15 +18,13 @@ form.add-day {
   }
 
   label {
-    font-size: 1.5em;
     text-shadow: 3px 3px 10px $snow-white;
     height: 10px;
     font-weight: bold;
   }
 
   input[type="text"],
-  input[type="date"] {
-    font-size: 1.5em;
+  input[type="date"] {    
     padding: .25em;
     border-radius: .2em;
     outline: none;
@@ -54,8 +52,7 @@ form.add-day {
     span {
       position: absolute;
       top: 5px;
-      right: 10px;
-      font-size: 2em;
+      right: 10px;      
     }
 
     .suggestions {
@@ -88,8 +85,7 @@ form.add-day {
 
   button {
     margin: auto;
-    width: 100%;
-    font-size: 2em;
+    width: 100%;    
     background-color: #8a2a2d;
     font-weight: bold;
     color: $snow-white;

@@ -1,7 +1,10 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿@section SPAViews {
+    @*@Html.Partial("_Home")*@
+    
+    <div id="react-container"></div>
+    
 
-<div id="react-container"></div>
-<script type="text/javascript" src="~/Content/bundle.js"></script>
+}
+@section Scripts{
+    <script type="text/javascript" src="~/Content/bundle.js"></script>
+}
