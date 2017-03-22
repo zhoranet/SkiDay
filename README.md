@@ -4,7 +4,13 @@ Demo project for ASP.NET 5 and React.js
 
 ## Installation
 
-- Open src\SkiDay.WebApp\ClientUI in Command Prompt and start 'webpack'
+- Install node
+- Open src\SkiDay.WebApp\ClientUI in Command Prompt 
+
+    `npm install`
+
+    `npm start`
+
 - Open src\SkiDay.sln in VS2015, build, run 
 
 ## Credits
