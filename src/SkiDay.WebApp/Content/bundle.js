@@ -74,23 +74,27 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var initialState = localStorage["redux-store"] ? JSON.parse(localStorage["redux-store"]) : _initialState2.default;
+	var initialState = _initialState2.default;
 
-	var saveState = function saveState() {
-		return localStorage["redux-store"] = JSON.stringify(store.getState());
-	};
+	// const saveState = () => 
+	//     localStorage["redux-store"] = JSON.stringify(store.getState())
 
 	var handleError = function handleError(error) {
 		store.dispatch((0, _actions.addError)(error.message));
 	};
 
+	var loadSkiDays = function loadSkiDays(event) {
+		store.dispatch((0, _actions.fetchSkiDays)());
+	};
+
 	var store = (0, _store2.default)(initialState);
-	store.subscribe(saveState);
+	//store.subscribe(saveState)
 
 	window.React = _react2.default;
 	window.store = store;
 
 	window.addEventListener("error", handleError);
+	window.addEventListener("load", loadSkiDays);
 
 	(0, _reactDom.render)(_react2.default.createElement(
 		_reactRedux.Provider,
@@ -116,7 +120,10 @@
 		FETCH_RESORT_NAMES: "FETCH_RESORT_NAMES",
 		CANCEL_FETCHING: "CANCEL_FETCHING",
 		CHANGE_SUGGESTIONS: "CHANGE_SUGGESTIONS",
-		CLEAR_SUGGESTIONS: "CLEAR_SUGGESTIONS"
+		CLEAR_SUGGESTIONS: "CLEAR_SUGGESTIONS",
+		FETCH_SKI_DAYS: "FETCH_SKI_DAYS",
+		CANCEL_FETCHING_SKI_DAYS: "CANCEL_FETCHING_SKI_DAYS",
+		FETCH_SKI_DAYS_COMPLETED: "FETCH_SKI_DAYS_COMPLETED"
 	};
 
 	exports.default = constants;
@@ -28069,8 +28076,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.suggestResortNames = exports.clearSuggestions = exports.changeSuggestions = exports.clearError = exports.addError = exports.setGoal = exports.removeDay = undefined;
-	exports.addDay = addDay;
+	exports.suggestResortNames = exports.clearSuggestions = exports.changeSuggestions = exports.clearError = exports.addError = exports.setGoal = exports.removeDay = exports.fetchSkiDays = exports.addDay = undefined;
 
 	var _constants = __webpack_require__(1);
 
@@ -28082,32 +28088,60 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function addDay(resort, date) {
+	var addDay = exports.addDay = function addDay(resort, date) {
 	    var powder = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 	    var backcountry = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+	    return function (dispatch) {
 
+	        (0, _isomorphicFetch2.default)(window.location.origin + '/home/skidays', {
+	            credentials: 'same-origin',
+	            method: 'POST',
+	            headers: {
+	                'Content-Type': 'application/json'
+	            },
+	            body: JSON.stringify({
+	                resort: resort,
+	                date: date,
+	                powder: powder,
+	                backcountry: backcountry
+	            })
+	        }).catch(function (error) {
+	            dispatch(addError(error.message));
+	        });
 
-	    (0, _isomorphicFetch2.default)(window.location.origin + '/home/skidays', {
-	        credentials: 'same-origin',
-	        method: 'POST',
-	        headers: {
-	            'Content-Type': 'application/json'
-	        },
-	        body: JSON.stringify({
-	            resort: resort,
-	            date: date,
-	            powder: powder,
-	            backcountry: backcountry
-	        })
-	    }).catch(function (error) {
-	        dispatch(addError(error.message));
-	    });
-
-	    return {
-	        type: _constants2.default.ADD_DAY,
-	        payload: { resort: resort, date: date, powder: powder, backcountry: backcountry }
+	        dispatch({
+	            type: _constants2.default.ADD_DAY,
+	            payload: { resort: resort, date: date, powder: powder, backcountry: backcountry }
+	        });
 	    };
-	}
+	};
+
+	var fetchSkiDays = exports.fetchSkiDays = function fetchSkiDays() {
+	    return function (dispatch) {
+
+	        dispatch({
+	            type: _constants2.default.FETCH_SKI_DAYS
+	        });
+
+	        (0, _isomorphicFetch2.default)(window.location.origin + '/home/skidays', {
+	            credentials: 'same-origin' }).then(function (response) {
+	            return response.json();
+	        }).then(function (skiDays) {
+
+	            dispatch({
+	                type: _constants2.default.FETCH_SKI_DAYS_COMPLETED,
+	                payload: skiDays
+	            });
+	        }).catch(function (error) {
+
+	            dispatch(addError(error.message));
+
+	            dispatch({
+	                type: _constants2.default.CANCEL_FETCHING_SKI_DAYS
+	            });
+	        });
+	    };
+	};
 
 	var removeDay = exports.removeDay = function removeDay(date) {
 
@@ -31422,12 +31456,6 @@
 				"date": "2016-12-8",
 				"powder": false,
 				"backcountry": false
-			},
-			{
-				"resort": "Mt Tallac",
-				"date": "2016-12-9",
-				"powder": false,
-				"backcountry": true
 			}
 		],
 		"goal": 10,
@@ -31567,10 +31595,12 @@
 	      });
 
 	    case _constants2.default.REMOVE_DAY:
-
 	      return state.filter(function (skiDay) {
 	        return skiDay.date !== action.payload;
 	      });
+
+	    case _constants2.default.FETCH_SKI_DAYS_COMPLETED:
+	      return action.payload;
 
 	    default:
 	      return state;

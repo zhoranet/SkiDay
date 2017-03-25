@@ -11,7 +11,7 @@ using SkiDay.WebApp.Models;
 namespace SkiDay.WebApp.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : ControllerBase
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

@@ -5,14 +5,12 @@ import routes from './routes'
 import sampleData from './initialState'
 import storeFactory from './store'
 import { Provider } from 'react-redux'
-import { addError } from './actions'
+import { addError, fetchSkiDays } from './actions'
 
-const initialState = (localStorage["redux-store"]) ?
-    JSON.parse(localStorage["redux-store"]) :
-    sampleData
+const initialState = sampleData
 
-const saveState = () => 
-    localStorage["redux-store"] = JSON.stringify(store.getState())
+// const saveState = () => 
+//     localStorage["redux-store"] = JSON.stringify(store.getState())
 
 const handleError = error => {
 	store.dispatch(
@@ -20,13 +18,18 @@ const handleError = error => {
 	)
 }
 
+const loadSkiDays = event => {
+	store.dispatch(fetchSkiDays())
+}
+
 const store = storeFactory(initialState)
-store.subscribe(saveState)
+//store.subscribe(saveState)
 
 window.React = React
 window.store = store
 
 window.addEventListener("error", handleError)
+window.addEventListener("load", loadSkiDays)
 
 render(
 	<Provider store={store}>

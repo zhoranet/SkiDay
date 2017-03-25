@@ -41,8 +41,10 @@ export const allSkiDays = (state=[], action) => {
          ].sort((a, b) => new Date(b.date) - new Date(a.date))
 
     case C.REMOVE_DAY :
-
       return state.filter(skiDay => skiDay.date !== action.payload)     
+
+    case C.FETCH_SKI_DAYS_COMPLETED:
+      return action.payload
 
     default:
       return state

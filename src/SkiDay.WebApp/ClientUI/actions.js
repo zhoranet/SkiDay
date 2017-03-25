@@ -1,7 +1,7 @@
 import C from './constants'
 import fetch from 'isomorphic-fetch'
 
-export function addDay(resort, date, powder=false, backcountry=false) {
+export const addDay = (resort, date, powder=false, backcountry=false) => dispatch => {
 
     fetch(window.location.origin + '/home/skidays', {
         credentials: 'same-origin',
@@ -20,10 +20,41 @@ export function addDay(resort, date, powder=false, backcountry=false) {
             dispatch(addError(error.message))
         })
     
-    return {
+    dispatch( {
         type: C.ADD_DAY,
         payload: {resort,date,powder,backcountry}
-    }
+    })
+
+}
+
+export const fetchSkiDays = () => dispatch => {
+
+    dispatch({
+        type: C.FETCH_SKI_DAYS
+    })
+
+    fetch(window.location.origin + '/home/skidays', {
+        credentials: 'same-origin'})        
+        .then(response => response.json())
+        .then(skiDays => {
+
+            dispatch({
+                type: C.FETCH_SKI_DAYS_COMPLETED,
+                payload: skiDays
+            })
+
+        })
+        .catch(error => {
+
+            dispatch(
+                addError(error.message)
+            )
+
+            dispatch({
+                type: C.CANCEL_FETCHING_SKI_DAYS
+            })
+
+        })
 
 }
 
