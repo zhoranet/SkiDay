@@ -28087,6 +28087,22 @@
 	    var backcountry = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
 
+	    (0, _isomorphicFetch2.default)(window.location.origin + '/home/skidays', {
+	        credentials: 'same-origin',
+	        method: 'POST',
+	        headers: {
+	            'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify({
+	            resort: resort,
+	            date: date,
+	            powder: powder,
+	            backcountry: backcountry
+	        })
+	    }).catch(function (error) {
+	        dispatch(addError(error.message));
+	    });
+
 	    return {
 	        type: _constants2.default.ADD_DAY,
 	        payload: { resort: resort, date: date, powder: powder, backcountry: backcountry }
@@ -28142,7 +28158,9 @@
 	            type: _constants2.default.FETCH_RESORT_NAMES
 	        });
 
-	        (0, _isomorphicFetch2.default)(window.location.origin + '/api/resorts/' + value).then(function (response) {
+	        (0, _isomorphicFetch2.default)(window.location.origin + '/home/resorts/' + value, {
+	            credentials: 'same-origin'
+	        }).then(function (response) {
 	            return response.json();
 	        }).then(function (suggestions) {
 
@@ -30446,7 +30464,7 @@
 
 
 	// module
-	exports.push([module.id, "html,\nbody,\ndiv.body-content,\ndiv#react-container,\ndiv.app {\n  height: 100%;\n  padding: 0;\n  margin: 0; }\n\nh1, label {\n  margin: 0; }\n\ndiv.app {\n  background-image: url(\"/Content/assets/img/rowdy.jpg\");\n  background-size: cover;\n  background-position: center; }\n\ndiv.whoops-404 {\n  background-color: white;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap; }\n", ""]);
+	exports.push([module.id, "html,\nbody,\ndiv.body-content,\ndiv#react-container,\ndiv.app {\n  height: 100%;\n  padding: 0;\n  margin: 0; }\n\nh1, label {\n  margin: 0; }\n\ndiv.app {\n  background-image: url(\"/Content/assets/img/rowdy.jpg\");\n  background-size: cover;\n  background-position: center;\n  padding-top: 3.5em; }\n\ndiv.whoops-404 {\n  background-color: white;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap; }\n", ""]);
 
 	// exports
 

@@ -3,6 +3,23 @@ import fetch from 'isomorphic-fetch'
 
 export function addDay(resort, date, powder=false, backcountry=false) {
 
+    fetch(window.location.origin + '/home/skidays', {
+        credentials: 'same-origin',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            resort: resort,
+            date: date,
+            powder: powder,
+            backcountry: backcountry
+            })
+        })        
+        .catch(error => {
+            dispatch(addError(error.message))
+        })
+    
     return {
         type: C.ADD_DAY,
         payload: {resort,date,powder,backcountry}
@@ -54,7 +71,9 @@ export const suggestResortNames = value => dispatch => {
         type: C.FETCH_RESORT_NAMES
     })
 
-    fetch(window.location.origin + '/api/resorts/' + value)
+    fetch(window.location.origin + '/home/resorts/' + value, {
+        credentials: 'same-origin'
+        })
         .then(response => response.json())
         .then(suggestions => {
 
