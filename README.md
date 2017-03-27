@@ -1,6 +1,6 @@
-# SkiDay with ASP.NET and React.js 
+# SkiDay with ASP.NET MVC and React.js 
 
-Demo project for ASP.NET 5 and React.js 
+Demo project for ASP.NET MVC 5 + EF6 + React.js + REDUX  
 
 ## Installation
 
