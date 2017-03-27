@@ -58,13 +58,24 @@ export const fetchSkiDays = () => dispatch => {
 
 }
 
-export const removeDay = function(date) {
+export const removeDay = (date) => dispatch => {
 
-    return {
-        type: C.REMOVE_DAY,
-        payload: date
-    }
+    var strDate = date .substring(0,date.toLocaleString().indexOf(':')-3)
 
+    fetch(window.location.origin + '/home/skidays/' + strDate, {
+        credentials: 'same-origin',
+        method: 'DELETE'})
+    .then(() => {
+        dispatch({
+            type: C.REMOVE_DAY,
+            payload: date
+        })
+    })
+    .catch(error => {
+        dispatch(
+            addError(error.message)
+        )
+    })
 }
 
 export const setGoal = (goal) => 

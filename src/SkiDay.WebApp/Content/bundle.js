@@ -76,9 +76,6 @@
 
 	var initialState = _initialState2.default;
 
-	// const saveState = () => 
-	//     localStorage["redux-store"] = JSON.stringify(store.getState())
-
 	var handleError = function handleError(error) {
 		store.dispatch((0, _actions.addError)(error.message));
 	};
@@ -88,7 +85,6 @@
 	};
 
 	var store = (0, _store2.default)(initialState);
-	//store.subscribe(saveState)
 
 	window.React = _react2.default;
 	window.store = store;
@@ -28062,7 +28058,7 @@
 
 
 	// module
-	exports.push([module.id, "div.show-errors {\n  width: 100%; }\n  div.show-errors div {\n    position: absolute;\n    width: 100%;\n    text-align: center;\n    top: 0;\n    background-color: red;\n    color: white;\n    font-family: verdana, sans-serif;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center; }\n    div.show-errors div p {\n      margin-left: 1em; }\n", ""]);
+	exports.push([module.id, "div.show-errors {\n  width: 100%; }\n  div.show-errors div {\n    position: absolute;\n    width: 100%;\n    text-align: center;\n    top: 3.8em;\n    background-color: red;\n    color: white;\n    font-family: verdana, sans-serif;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center; }\n    div.show-errors div p {\n      margin-left: 1em; }\n", ""]);
 
 	// exports
 
@@ -28144,10 +28140,20 @@
 	};
 
 	var removeDay = exports.removeDay = function removeDay(date) {
+	    return function (dispatch) {
 
-	    return {
-	        type: _constants2.default.REMOVE_DAY,
-	        payload: date
+	        var strDate = date.substring(0, date.toLocaleString().indexOf(':') - 3);
+
+	        (0, _isomorphicFetch2.default)(window.location.origin + '/home/skidays/' + strDate, {
+	            credentials: 'same-origin',
+	            method: 'DELETE' }).then(function () {
+	            dispatch({
+	                type: _constants2.default.REMOVE_DAY,
+	                payload: date
+	            });
+	        }).catch(function (error) {
+	            dispatch(addError(error.message));
+	        });
 	    };
 	};
 

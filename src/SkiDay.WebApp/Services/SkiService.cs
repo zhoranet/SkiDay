@@ -65,5 +65,17 @@ namespace SkiDay.WebApp.Services
             _context.SkiDays.Add(skiDay);
             _context.SaveChanges();
         }
+
+        public MySkiDay FindSkiDay(DateTime date, string userId)
+        {
+            return _context.SkiDays.FirstOrDefault(x => x.Date == date);
+        }
+
+        public void Remove(MySkiDay day)
+        {
+            if (day == null) return;
+            _context.SkiDays.Remove(day);
+            _context.SaveChanges();
+        }
     }
 }

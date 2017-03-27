@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using SkiDay.WebApp.Models;
@@ -40,18 +41,32 @@ namespace SkiDay.WebApp.Controllers
         [Route("skidays")]
         public JsonResult GetSkiDays()
         {
-            var days = _skiService.GetAllDays(User.Identity.GetUserId());
+            var days = _skiService.GetAllDays(GetUserId());
 
             return Json(days, JsonRequestBehavior.AllowGet);
+        }
+
+        private string GetUserId()
+        {
+            return User.Identity.GetUserId();
         }
 
         [HttpPost]
         [Route("skidays")]
         public JsonResult AddNewSkiDay(MySkiDay skiDay)
         {
-            skiDay.UserId = User.Identity.GetUserId();
+            skiDay.UserId = GetUserId();
             _skiService.AddSkiDay(skiDay);
 
+            return new JsonResult();
+        }
+
+        [HttpDelete]
+        [Route("skidays/{date}")]
+        public JsonResult DeleteSkiDay(DateTime date)
+        {
+            var day =_skiService.FindSkiDay(date, GetUserId());
+            if (day != null) _skiService.Remove(day);
             return new JsonResult();
         }
     }

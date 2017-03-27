@@ -9,9 +9,6 @@ import { addError, fetchSkiDays } from './actions'
 
 const initialState = sampleData
 
-// const saveState = () => 
-//     localStorage["redux-store"] = JSON.stringify(store.getState())
-
 const handleError = error => {
 	store.dispatch(
 		addError(error.message)
@@ -19,11 +16,10 @@ const handleError = error => {
 }
 
 const loadSkiDays = event => {
-	store.dispatch(fetchSkiDays())
+	store.dispatch(fetchSkiDays())	
 }
 
 const store = storeFactory(initialState)
-//store.subscribe(saveState)
 
 window.React = React
 window.store = store

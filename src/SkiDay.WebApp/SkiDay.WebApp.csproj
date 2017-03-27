@@ -299,7 +299,6 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\MeViewModels.cs" />
     <Compile Include="Models\MySkiDay.cs" />
     <Compile Include="Models\SkiResort.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
